@@ -1,14 +1,18 @@
 package com.mandycode.random.friends.controller;
 
 import com.mandycode.random.friends.model.FriendsEpisode;
+import com.mandycode.random.friends.model.FriendsEpisodeEvent;
 import com.mandycode.random.friends.repository.FriendsEpisodeRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.time.Duration;
 
 @RequiredArgsConstructor
 @RestController
@@ -31,7 +35,7 @@ public class FriendsController {
 
     //TODO: Fazer um getBySeason
 
-    @PostMapping()
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<FriendsEpisode> saveFriendsEpisode(@RequestBody FriendsEpisode episode){
         return repository.save(episode);
@@ -67,6 +71,12 @@ public class FriendsController {
     @DeleteMapping
     public Mono<Void> deleteAllEpisodes() {
         return repository.deleteAll();
+    }
+
+    @GetMapping(value = "/events", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<FriendsEpisodeEvent> getFriendsEpisodeEvents(){
+        return Flux.interval(Duration.ofSeconds(5))
+                .map(val -> new FriendsEpisodeEvent(val, "Product Event"));
     }
 
 }
