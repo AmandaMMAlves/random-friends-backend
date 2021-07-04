@@ -52,8 +52,8 @@ public class FriendsController {
     }
 
     private boolean checkChangeOnExistingEpisode(FriendsEpisode existingEpisode, FriendsEpisode updatedEpisode){
-        return StringUtils.equals(existingEpisode.getEpisodio(), episode.getEpisodio())
-                && StringUtils.equals(existingEpisode.getTemporada(), episode.getTemporada());
+        return StringUtils.equals(existingEpisode.getEpisodio(), updatedEpisode.getEpisodio())
+                && StringUtils.equals(existingEpisode.getTemporada(), updatedEpisode.getTemporada());
     }
 
     @DeleteMapping("{id}")
